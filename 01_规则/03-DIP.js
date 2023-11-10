@@ -41,7 +41,7 @@ class Rate {
 }
 
 const store = new Store()
-store.rate.star (5)
+store.rate.star(5)
 
 
 // 重构

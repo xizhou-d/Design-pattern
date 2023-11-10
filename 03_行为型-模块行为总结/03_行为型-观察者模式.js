@@ -25,6 +25,12 @@ class MediaCenter {
             ob.update(state)
         })
     }
+
+    notifyAllObservers() {
+        this.observers.forEach(ob => {
+            ob.update(this.state)
+        })
+    }
 }
 
 class Observer {
