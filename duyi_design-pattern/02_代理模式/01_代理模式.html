@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const male = {
+            sendFlower: function(target) {
+                const flower = 'sunFlower'
+                target.receiveFlower(flower)
+            }
+        }
+
+        const female = {
+            mood: '',
+            receiveFlower: function(flower) {
+                this.mood ? console.log('ok') : console.log('get out')
+            },
+            changeMood: function() {
+                this.mood = Math.random() > 0.5
+            },
+            createMood: function() {
+                const self = this
+
+                self.changeMood()
+                setInterval(() => {
+                    self.changeMood()
+                    console.log('self.mood', self.mood)
+                }, 400)
+            }
+        }
+
+        female.createMood()
+
+        // male.sendFlower(female)
+
+        // 上面的例子送花给女神，女神心情不好要你滚，因此，你送花也要挑时间送；表现在代码中就是，程序如何保证可行性
+
+        // 找个中间人代 male 送花，女神心情好的时候再去送花
+        const midProxy = {
+            sendFlowerProxy: function(target) {
+                this.listenMood(target, function() {
+                    male.sendFlower(target)
+                })
+            },
+            // 监听女神的心情
+            listenMood: function(target, cb) {
+                let timer = setInterval(() => {
+                    if (target.mood) {
+                        console.log('target.mood', target.mood)
+                        cb()
+                        clearInterval(timer)
+                    }
+                }, 300) 
+            }
+        }
+        midProxy.sendFlowerProxy(female)
+    </script>
+</body>
+</html>

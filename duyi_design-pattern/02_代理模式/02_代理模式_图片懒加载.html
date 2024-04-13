@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: inline-block;
+            width: 200px;
+            height: auto;
+            box-shadow: 3px 3px 4px #ccc, -3px -3px 4px #ccc;
+            border-radius: 5px;
+        }
+        .container img {
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script>
+        const MyImg = function(container) {
+            // document.createElement('img') 的效果跟 new Image()是一样的
+            const img = new Image()
+            console.log('this', this)
+            this.setUrl = function(url) {
+                console.log('this', this)
+                img.src = url
+            }
+            document.querySelector('.container').appendChild(img)
+        }
+
+        const proxyImage = (function() {
+            // 真正在网页上显示的图片
+            const img1 = new MyImg()
+            // 代理 img1 去真实请求图片资源
+            const newImage = new Image()
+
+            newImage.onload = function() {
+                img1.setUrl(newImage.src)
+            }
+
+            return function(url) {
+                // 给要展示的图片设置站位图
+                img1.setUrl('./imgs/yangjian.png')
+                newImage.src = url
+            }
+        })()
+
+        proxyImage('https://pic.netbian.com/uploads/allimg/240322/232300-171112098057a5.jpg')
+    </script>
+</body>
+</html>

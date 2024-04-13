@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="btn">create alert</button>
+
+    <script src="../plugins//single.js"></script>
+    <script>
+        const btn = document.querySelector('.btn')
+
+        function createAlert(text) {
+            const div = document.createElement('div')
+            div.innerHTML = text
+            div.style.display = 'none'
+            document.body.appendChild(div)
+
+            return div
+        }
+
+        btn.onclick = function() {
+            const div = singleCreate()
+            console.log('div', div)
+            div.style.display = 'block'
+        }
+    </script>
+</body>
+</html>
