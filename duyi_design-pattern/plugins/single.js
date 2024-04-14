@@ -1,5 +1,5 @@
 if (!window.myPlugins) {
-    window.plugins = {}
+    window.myPlugins = {}
 }
 
 myPlugins.single = function singleCreate(func) {
