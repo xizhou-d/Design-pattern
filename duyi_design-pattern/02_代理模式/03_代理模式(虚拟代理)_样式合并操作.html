@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 200px;
+            height: 200px;
+            border: 1px solid orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">The winter is coming.</div>
+    <button type="bg">add green bgc</button>
+    <button type="cl">add blue color</button>
+    <button type="fs">add font size</button>
+    <button type="fw">add font weight</button>
+    <button type="op">add opacity</button>
+
+    <script>
+        const target = document.querySelector('.container')
+
+        const buttons = document.getElementsByTagName('button')
+
+        const readChangeStyle = proxyChangeStyle(changeStyle)
+
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = function() {
+                readChangeStyle(target, this.getAttribute('type'))
+            }
+        }
+
+        function changeStyle(target, typeArr) {
+            const obj = {
+                bg: ['backgroundColor', '#ccc'],
+                cl: ['color', '#000'],
+                fs: ['fontSize', '20px'],
+                fw: ['fontWeight', 'bold'],
+                op: ['opacity', '0.3']
+            }
+
+            if (Array.isArray(typeArr)) {
+                typeArr.forEach(type => {
+                    target.style[obj[type][0]] = obj[type][1]
+                })
+            } else {
+                target.style[obj[typeArr][0]] = obj[typeArr][1]
+            }
+        }
+
+        function proxyChangeStyle(func) {
+            const cache = []
+
+            let timer = null
+            
+            return function(target, type) {
+                cache.push(type)
+                clearTimeout(timer)
+                setTimeout(() => {
+                    func(target, cache)
+                }, 2000)
+            }
+        }
+
+    </script>
+</body>
+</html>
