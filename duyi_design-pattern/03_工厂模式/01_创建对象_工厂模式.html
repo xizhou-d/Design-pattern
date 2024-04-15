@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function SmallPlane() {
+            this.width = 100
+            this.height = 100
+            this.blood = 100
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+        }
+
+        function BigPlane() {
+            this.width = 200
+            this.height = 200
+            this.blood = 200
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+        }
+
+        // 如果新增一种类型的 plane
+        function AttackPlane() {
+            this.width = 125
+            this.height = 125
+            this.blood = 125
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+            this.attack = function() {
+                console.log('attack')
+            }
+        }
+
+        // 工厂模式
+        function PlaneFactory(type) {
+            let newPlane = null
+
+            switch(type) {
+                case 'SmallPlane':
+                    newPlane = new SmallPlane()
+                    break;
+                case 'BigPlane':
+                    newPlane = new BigPlane()
+                    break;
+                // 每次新增一种 plane，就需要在这里增加一个 case ，不符合开闭原则
+                case 'AttackPlane':
+                    newPlane = new AttackPlane()
+            }
+
+            newPlane.die = function() {
+                console.log('die')
+            }
+
+            return newPlane
+        }
+
+        const sp = PlaneFactory('SmallPlane')
+        const bp = PlaneFactory('BigPlane')
+        const ap = PlaneFactory('AttackPlane')
+        console.log('sp', sp)
+        console.log('bp', bp)
+        console.log('ap', ap)
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function SmallPlane() {
+            this.width = 100
+            this.height = 100
+            this.blood = 100
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+        }
+
+        function BigPlane() {
+            this.width = 200
+            this.height = 200
+            this.blood = 200
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+        }
+
+        // 如果新增一种类型的 plane
+        function AttackPlane() {
+            this.width = 125
+            this.height = 125
+            this.blood = 125
+
+            this.touch = function() {
+                this.blood -= 50
+                if (blood  === 0) {
+                    console.log('die')
+                }
+            }
+            this.attack = function() {
+                console.log('attack')
+            }
+        }
+
+        // 工厂模式
+        function PlaneFactory(type) {
+           
+        }
+
+        PlaneFactory.create = function(type) {
+            // 首先判断是原型上面有 type 对应的构造函数
+            if (PlaneFactory.prototype[type] === undefined) {
+                throw new Error('没有该类型的构造器')
+            }
+
+            // 查看当前类型对应的构造函数是否已经继承了 PlaneFactory, 如果没有继承就继承
+            if (Object.getPrototypeOf(PlaneFactory.prototype[type].prototype) !== PlaneFactory.prototype) {
+                PlaneFactory.prototype[type].prototype = new PlaneFactory()
+            }
+
+            const args = Array.prototype.splice.call(arguments, 1)
+            const newPlane = new PlaneFactory.prototype[type](...args)
+
+            return newPlane
+        }
+
+        PlaneFactory.prototype.touch = function() {
+            this.blood -= 50
+
+            if (this.blood === 0) {
+                console.log('die')
+            }
+        }
+
+        PlaneFactory.prototype.SmallPlane = function(x, y) {
+            this.x = x
+            this.y = y
+
+            this.width = 100
+            this.height = 100
+            this.name = 'smallplane'
+            this.blood = 100
+        }
+
+        PlaneFactory.prototype.BigPlane = function(x, y) {
+            this.x = x
+            this.y = y
+
+            this.width = 200
+            this.height = 100
+            this.name = 'bigplane'
+            this.blood = 150
+        }
+
+        PlaneFactory.prototype.AttackPlane = function(x, y) {
+            this.x = x
+            this.y = y
+
+            this.width = 125
+            this.height = 100
+            this.name = 'attackplane'
+            this.blood = 50
+        }
+
+        const sp = PlaneFactory.create('SmallPlane', 10, 10)
+        const bp = PlaneFactory.create('BigPlane', 20, 20)
+        const ap = PlaneFactory.create('AttackPlane', 30, 30)
+        console.log('sp', sp)
+        console.log('bp', bp)
+        console.log('ap', ap)
+    </script>
+</body>
+</html>
